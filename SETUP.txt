@@ -1,85 +1,88 @@
-This file provides simple instructions to set up VulnScanner, a powerful vulnerability scanner with an ASCII art loading screen. Follow these steps to install and configure the tool on a Linux system (Kali Linux recommended).
-Prerequisites
-•	OS: Linux (Kali Linux or Debian-based).
-•	Hardware: 4GB RAM, 4 CPU cores, 20GB free disk space.
-•	Root Access: Needed for installing dependencies.
-•	Internet: Required for downloads.
-•	Git: Install with sudo apt-get install git.
-Setup Steps
-Step 1: Clone the Repository
-Clone the VulnScanner repository:
-bash
-git clone https://github.com/muhammad-khalid-bin-walid/Vuln-Scanner.git
-cd Vuln-Scanner
-Step 2: Install Dependencies
-Run the requirements.sh script to install all tools and dependencies:
-bash
-chmod +x requirements.sh
-sudo ./requirements.sh
-This installs:
-•	System tools (Python, Go, Ruby, etc.).
-•	Python packages (requests, pyyaml, etc.).
-•	Security tools (Nuclei, Dalfox, XSStrike, etc.).
-•	Updates Nuclei templates.
-Time: ~30-60 minutes.
-If errors occur: Check terminal output and manually install missing tools (e.g., go install github.com/projectdiscovery/nuclei/v3@latest).
-Step 3: Configure API Keys (Optional)
-Add API keys for enrichment (Shodan, Censys, etc.) in config.yaml:
-bash
-nano config.yaml
-Update:
-yaml
-scan_settings:
-  shodan_api_key: "your_shodan_api_key"
-  censys_api_id: "your_censys_api_id"
-  censys_api_secret: "your_censys_api_secret"
-  virustotal_api_key: "your_virustotal_api_key"
-  dnsdb_api_key: "your_dnsdb_api_key"
-  passivetotal_api_key: "your_passivetotal_api_key"
+# 😎 How to Use VulnScanner Like a Pro
 
-Get keys from:
-•	Shodan: https://account.shodan.io/
-•	Censys: https://censys.io/account
-•	VirusTotal: https://www.virustotal.com/gui/join-us
-•	DNSDB: https://www.dnsdb.info/
-•	PassiveTotal: https://community.riskiq.com/
-Save and exit (Ctrl+O, Enter, Ctrl+X).
+Hey there! Ready to unleash the power of VulnScanner and scan some websites for vulnerabilities? This tool is like a superhero with a Kamehameha-style loading screen, packed with tons of scanning tools to find weaknesses in websites. Here's a chill, step-by-step guide to using it. Let's dive in!
 
-Step 4: Create Input Directory
+## What You'll Need
+- A Linux system (Kali Linux is awesome for this).
+- The tool set up (check INSTALL.md in the repo if you haven't done this yet).
+- A cup of coffee ☕ for those epic scanning sessions.
 
-Make a directory for input files:
-bash
-mkdir inputs
-Optionally, create files like inputs/subdomains.txt with targets (e.g., sub1.example.com) or let the tool generate them.
-Step 5: Verify Setup
-Check key tools:
-bash
-python3 --version
-nuclei -version
-dalfox --version
-xsstrike --version
-If any fail, re-run requirements.sh or install manually.
-Running the Scanner
-Run the scanner:
-bash
+## Step 1: Fire It Up
+Head to your VulnScanner folder (you cloned it from https://github.com/muhammad-khalid-bin-walid/Vuln-Scanner.git, right?). Open a terminal there and run:
+
+```bash
 python3 vulnscanner.py --input-dir inputs --config config.yaml --verbose
-•	Prompts: Enter file paths, generate (e.g., for example.com), skip, or default.
-•	Output: Reports in scan_results/ (JSON, HTML, PDF, etc.) and logs in vulnscanner.log.
-Troubleshooting
-•	Tool Errors: Verify paths in config.yaml or re-install tools.
-•	Permissions: Run chmod -R 755 inputs scan_results.
-•	Logs: Check vulnscanner.log for details.
-•	API Issues: Validate keys and rate limits.
-Notes
-•	Keep config.yaml secure (don’t share API keys).
-•	Update tools with requirements.sh or nuclei -update-templates.
-•	Customize config.yaml for threads, notifications, or Kamehameha theme.
-For help, check the GitHub repository: https://github.com/muhammad-khalid-bin-walid/Vuln-Scanner
-________________________________________
-How to Use
-1.	Save the File:
-o	Copy the content into SETUP.txt in the Vuln-Scanner directory alongside vulnscanner.py, config.yaml, report_template.html, and requirements.sh.
-2.	Include in Repository:
-o	Add SETUP.txt to the Vuln-Scanner repository for users to follow.
-3.	Follow Steps:
-o	Users should execute the commands in SETUP.txt to set up the tool.
+```
+
+The `--verbose` part makes sure you see all the juicy details as it runs. Think of it like turning on the commentary for a movie.
+
+## Step 2: Pick Your Targets
+The tool will ask you about input files, like subdomains.txt or domains.txt. These are lists of websites or parts of websites you want to scan. You'll see prompts like:
+
+```
+=== Input File Configuration ===
+Enter path for subdomains.txt (Enter for inputs/subdomains.txt, 'generate', 'skip', 'default'):
+```
+
+Here's what to do:
+- If you have a file ready (e.g., inputs/subdomains.txt with stuff like sub1.example.com), just hit Enter or type the path.
+- Want the tool to make one? Type `generate`, then give it a domain like example.com. It'll use tools like Amass to find subdomains for you.
+- Not sure? Type `skip` to move on or `default` to use the default path.
+
+Pro tip: For testing, try `generate` with a domain like tesla.com (with permission, of course!).
+
+You'll see similar prompts for other files (domains, JS files, paths, logs). If you're just starting, skip the ones you don't need.
+
+## Step 3: Watch the Kamehameha Magic
+Once you've set up your files, the tool kicks off with a super cool Kamehameha loading screen! It's like Goku charging up his energy blast. You'll see:
+
+```
+Charging Kamehameha for Vulnerability Scan...
+[Kamehameha ASCII Art]
+Targets Scanned: 0/5
+Elapsed Time: 2s
+Memory Usage: 45%
+```
+
+The art pulses in colors (blue by default, but you can change it to red, green, or yellow in config.yaml). It shows how many targets are done, how long it's been running, and even how much memory it's using. Just sit back and enjoy the show while it scans.
+
+## Step 4: Check Out the Results
+When it's done, all your results land in the scan_results folder. Here's what you get:
+
+- **Individual Reports**: For each target and tool (like Nuclei or XSStrike), you'll find reports in `scan_results/per_scan_reports/<some_hash>/<tool>_report.json` (or .txt, .md, .html). These break down what the tool found.
+- **Big Summary Report**: A master report in `scan_results/unified_report.html` (also in JSON, PDF, CSV, etc.). Open the HTML one in a browser—it's got charts, filters, and looks slick!
+- **Logs**: If something goes wrong, peek at `vulnscanner.log` for clues.
+
+The HTML report is my favorite. It's like a dashboard with a graph showing how many critical, high, or low issues were found, and you can sort or filter the results.
+
+## Step 5: Tweak It (Optional)
+Want to make it your own? Open `config.yaml` and play with these:
+
+- **Loading Screen**: Change theme to red or green for a different Kamehameha vibe.
+- **Notifications**: Set up Slack or Discord alerts for when it finds something nasty (look for notifications in the file).
+- **Speed**: Adjust threads (e.g., 5 for slower systems) or rate_limit to control how fast it scans.
+
+For example:
+```yaml
+kamehameha:
+  theme: "red"
+  charge_time: 5
+```
+
+## If Something Goes Wrong
+- **Prompts Confusing?** Just hit `skip` for files you don't have yet.
+- **Errors?** Check `vulnscanner.log`. It might say a tool is missing—re-run `requirements.sh` or install it manually (e.g., `go install github.com/projectdiscovery/nuclei/v3@latest`).
+- **Permission Issues?** Run `chmod -R 755 inputs scan_results` to fix folder access.
+- **API Stuff Not Working?** Double-check your keys in `config.yaml` (Shodan, Censys, etc.).
+
+## Quick Example
+Let's say you want to scan example.com:
+
+1. Run the command: `python3 vulnscanner.py --input-dir inputs --config config.yaml --verbose`
+2. At the subdomains.txt prompt, type `generate` and enter example.com.
+3. Skip other files for now.
+4. Watch the Kamehameha screen do its thing.
+5. Open `scan_results/unified_report.html` in a browser to see what it found.
+
+## Have Fun!
+That's it! You're now a VulnScanner master, blasting through websites with Kamehameha power. Check out the GitHub repo if you need more help or want to share ideas. Happy scanning! 🚀
