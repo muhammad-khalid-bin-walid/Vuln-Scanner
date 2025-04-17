@@ -1,0 +1,85 @@
+This file provides simple instructions to set up VulnScanner, a powerful vulnerability scanner with an ASCII art loading screen. Follow these steps to install and configure the tool on a Linux system (Kali Linux recommended).
+Prerequisites
+•	OS: Linux (Kali Linux or Debian-based).
+•	Hardware: 4GB RAM, 4 CPU cores, 20GB free disk space.
+•	Root Access: Needed for installing dependencies.
+•	Internet: Required for downloads.
+•	Git: Install with sudo apt-get install git.
+Setup Steps
+Step 1: Clone the Repository
+Clone the VulnScanner repository:
+bash
+git clone https://github.com/muhammad-khalid-bin-walid/Vuln-Scanner.git
+cd Vuln-Scanner
+Step 2: Install Dependencies
+Run the requirements.sh script to install all tools and dependencies:
+bash
+chmod +x requirements.sh
+sudo ./requirements.sh
+This installs:
+•	System tools (Python, Go, Ruby, etc.).
+•	Python packages (requests, pyyaml, etc.).
+•	Security tools (Nuclei, Dalfox, XSStrike, etc.).
+•	Updates Nuclei templates.
+Time: ~30-60 minutes.
+If errors occur: Check terminal output and manually install missing tools (e.g., go install github.com/projectdiscovery/nuclei/v3@latest).
+Step 3: Configure API Keys (Optional)
+Add API keys for enrichment (Shodan, Censys, etc.) in config.yaml:
+bash
+nano config.yaml
+Update:
+yaml
+scan_settings:
+  shodan_api_key: "your_shodan_api_key"
+  censys_api_id: "your_censys_api_id"
+  censys_api_secret: "your_censys_api_secret"
+  virustotal_api_key: "your_virustotal_api_key"
+  dnsdb_api_key: "your_dnsdb_api_key"
+  passivetotal_api_key: "your_passivetotal_api_key"
+
+Get keys from:
+•	Shodan: https://account.shodan.io/
+•	Censys: https://censys.io/account
+•	VirusTotal: https://www.virustotal.com/gui/join-us
+•	DNSDB: https://www.dnsdb.info/
+•	PassiveTotal: https://community.riskiq.com/
+Save and exit (Ctrl+O, Enter, Ctrl+X).
+
+Step 4: Create Input Directory
+
+Make a directory for input files:
+bash
+mkdir inputs
+Optionally, create files like inputs/subdomains.txt with targets (e.g., sub1.example.com) or let the tool generate them.
+Step 5: Verify Setup
+Check key tools:
+bash
+python3 --version
+nuclei -version
+dalfox --version
+xsstrike --version
+If any fail, re-run requirements.sh or install manually.
+Running the Scanner
+Run the scanner:
+bash
+python3 vulnscanner.py --input-dir inputs --config config.yaml --verbose
+•	Prompts: Enter file paths, generate (e.g., for example.com), skip, or default.
+•	Output: Reports in scan_results/ (JSON, HTML, PDF, etc.) and logs in vulnscanner.log.
+Troubleshooting
+•	Tool Errors: Verify paths in config.yaml or re-install tools.
+•	Permissions: Run chmod -R 755 inputs scan_results.
+•	Logs: Check vulnscanner.log for details.
+•	API Issues: Validate keys and rate limits.
+Notes
+•	Keep config.yaml secure (don’t share API keys).
+•	Update tools with requirements.sh or nuclei -update-templates.
+•	Customize config.yaml for threads, notifications, or Kamehameha theme.
+For help, check the GitHub repository: https://github.com/muhammad-khalid-bin-walid/Vuln-Scanner
+________________________________________
+How to Use
+1.	Save the File:
+o	Copy the content into SETUP.txt in the Vuln-Scanner directory alongside vulnscanner.py, config.yaml, report_template.html, and requirements.sh.
+2.	Include in Repository:
+o	Add SETUP.txt to the Vuln-Scanner repository for users to follow.
+3.	Follow Steps:
+o	Users should execute the commands in SETUP.txt to set up the tool.
