@@ -1,0 +1,17 @@
+PyYAML==6.0.1
+validators==0.22.0
+jinja2==3.1.4
+tqdm==4.66.5
+requests==2.32.3
+colorama==0.4.6
+prompt_toolkit==3.0.47
+psutil==5.9.8
+aiohttp==3.10.5
+dnspython==2.6.1
+ratelimit==2.2.1
+jsonschema==4.23.0
+shodan==1.31.0
+censys==2.2.12
+virustotal-python==0.2.0
+passivetotal==2.5.9
+weasyprint==62.3
