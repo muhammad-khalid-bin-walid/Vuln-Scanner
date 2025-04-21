@@ -1,142 +1,64 @@
-tools:
-  xsstrike: "XSStrike/xsstrike.py"
-  dalfox: "dalfox"
-  nuclei: "nuclei"
-  jaws: "JAWS/jaws.py"
-  zap: "zap-cli"
-  wapiti: "wapiti"
-  xsser: "xsser"
-  xspear: "xspear"
-  kxss: "kxss"
-  nikto: "nikto"
-  arachni: "arachni"
-  w3af: "w3af/w3af_console"
-  sqlmap: "sqlmap/sqlmap.py"
-  nosqlmap: "NoSQLMap/nosqlmap.py"
-  sqlninja: "sqlninja"
-  whatweb: "whatweb"
-  wpscan: "wpscan"
-  cmsscan: "cmsscan"
-  gobuster: "gobuster"
-  dirb: "dirb"
-  dirsearch: "dirsearch/dirsearch.py"
-  feroxbuster: "feroxbuster"
-  testssl: "testssl.sh/testssl.sh"
-  sslyze: "sslyze"
-  a2sv: "a2sv"
-  wafw00f: "wafw00f"
-  whatwaf: "WhatWaf/whatwaf.py"
-  wafp: "wafp/wafp.rb"
-  sniper: "Sn1per/sniper"
-  amass: "amass"
-  subfinder: "subfinder"
-  findomain: "findomain"
-  assetfinder: "assetfinder"
-  sublist3r: "sublist3r"
-  waybackurls: "waybackurls"
-  gau: "gau"
-  hakrawler: "hakrawler"
-  getallurls: "gau"
-  arjun: "arjun"
-  katana: "katana"
-  spiderfoot: "spiderfoot/sf.py"
-  photon: "photon/photon.py"
-  httpx: "httpx"
-  httpprobe: "httprobe"
-  meg: "meg"
-  ffuf: "ffuf"
-  custom_script: ""  # Optional
-scan_settings:
-  threads: 10
-  retries: 3
-  timeout: 300
-  rate_limit: 5
-  memory_limit_percent: 90
-  nuclei_templates: "cves/,vulnerabilities/,misconfiguration/"
-  jaws_params: "--all"
-  xsstrike_params: "--crawl --timeout 10"
-  dalfox_params: "--blind"
-  zap_params: "--spider --ajax-spider"
-  wapiti_params: "-m xss,sql"
-  xsser_params: "--auto"
-  xspear_params: "-v"
-  kxss_params: ""
-  nikto_params: "-Tuning x"
-  arachni_params: "--checks=xss,sql_injection"
-  w3af_params: "-p audit"
-  sqlmap_params: "--batch --level 3"
-  nosqlmap_params: "--auto"
-  sqlninja_params: "-m test"
-  whatweb_params: "--aggression 3"
-  wpscan_params: "--enumerate"
-  cmsscan_params: "--deep"
-  gobuster_params: "dir -w /usr/share/wordlists/dirb/common.txt"
-  dirb_params: "/usr/share/wordlists/dirb/common.txt"
-  dirsearch_params: "-w /usr/share/wordlists/dirb/common.txt"
-  feroxbuster_params: "-w /usr/share/wordlists/dirb/common.txt"
-  testssl_params: "--warnings off"
-  sslyze_params: "--regular"
-  a2sv_params: "--ssl"
-  wafw00f_params: ""
-  whatwaf_params: ""
-  wafp_params: ""
-  sniper_params: "-m stealth"
-  amass_params: "enum -passive"
-  subfinder_params: "-all"
-  findomain_params: ""
-  assetfinder_params: ""
-  sublist3r_params: ""
-  waybackurls_params: ""
-  gau_params: ""
-  hakrawler_params: ""
-  getallurls_params: ""
-  arjun_params: "--stable"
-  katana_params: "-jc -o"
-  spiderfoot_params: "-m all"
-  photon_params: "--deep"
-  httpx_params: "-status-code -no-fallback"
-  httpprobe_params: ""
-  meg_params: ""
-  ffuf_params: "-w /usr/share/wordlists/dirb/common.txt"
-  proxy: "http://127.0.0.1:8080"  # Optional
-  shodan_api_key: ""
-  censys_api_id: ""
-  censys_api_secret: ""
-  virustotal_api_key: ""
-  dnsdb_api_key: ""
-  passivetotal_api_key: ""
-auth:
-  cookies: {}
-  headers: {}
-  oauth_token: ""
-  api_tokens: {}
 output:
-  directory: "scan_results"
-  per_scan_report_dir: "per_scan_reports"
-  per_scan_report_format: "all"  # json, txt, markdown, html, all
-  html_template: "report_template.html"
+  directory: outputs
+  per_scan_report_dir: reports
+  per_scan_report_format: all
+  html_template: templates/report.html
   pdf_report: true
-  export_formats: ["csv", "xml", "markdown"]
+  export_formats: [json, html, csv, markdown, xml]
+scan_settings:
+  retries: 3
+  timeout: 600
+  rate_limit: 10
+  threads: 5
+  memory_limit_percent: 90
+  shodan_api_key: your_shodan_key
+  censys_api_id: your_censys_id
+  censys_api_secret: your_censys_secret
+  virustotal_api_key: your_virustotal_key
+  dnsdb_api_key: your_dnsdb_key
+  passivetotal_api_key: your_passivetotal_key
+  amass_params: enum -active
+  subfinder_params: -all
+  httpx_params: -silent
+  nuclei_templates: /path/to/nuclei/templates
+  ffuf_wordlist: /usr/share/wordlists/dirb/common.txt
+  ffuf_params: -c -t 50
+  nmap_params: --script vuln
+tools:
+  amass: /usr/bin/amass
+  subfinder: /usr/bin/subfinder
+  findomain: /usr/bin/findomain
+  assetfinder: /usr/bin/assetfinder
+  sublist3r: /path/to/Sublist3r/sublist3r.py
+  httpx: /usr/bin/httpx
+  katana: /usr/bin/katana
+  hakrawler: /usr/bin/hakrawler
+  photon: /path/to/photon/photon.py
+  waybackurls: /usr/bin/waybackurls
+  gau: /usr/bin/gau
+  arjun: /path/to/Arjun/arjun.py
+  nuclei: /usr/bin/nuclei
+  xsstrike: /path/to/XSStrike/xsstrike.py
+  dalfox: /usr/bin/dalfox
+  nikto: /usr/bin/nikto
+  testssl: /usr/bin/testssl.sh
+  ffuf: /usr/bin/ffuf
+  nmap: /usr/bin/nmap
 input_files:
-  subdomains: "subdomains.txt"
-  domains: "domains.txt"
-  js: "js.txt"
-  paths: "paths.txt"
-  params: "wayback_params.txt"
-  logs: ["out.log", "final.txt"]
-payloads:
-  xss: ["<script>alert('xss')</script>", "<img src=x onerror=alert('xss')>"]
-  sql: ["' OR '1'='1", "1; DROP TABLE users"]
-  nosql: ["{\"$ne\": null}", "{\"$gt\": \"\"}"]
+  subdomains: subdomains.txt
+  domains: domains.txt
+  js: jsfiles.txt
+  paths: paths.txt
+  params: params.txt
+  logs: [access.log, error.log]
 notifications:
-  email: ""
-  slack_webhook: ""
-  discord_webhook: ""
-  telegram_bot_token: ""
-  telegram_chat_id: ""
   enable: false
+  slack_webhook: null
+  discord_webhook: null
+  telegram_bot_token: null
+  telegram_chat_id: null
 kamehameha:
   enable: true
-  charge_time: 5  # Seconds
-  theme: "blue"  # blue, red, green, yellow
-  animation_speed: 0.2  # Seconds per frame
+  theme: blue
+  charge_time: 5
+  animation_speed: 0.2
